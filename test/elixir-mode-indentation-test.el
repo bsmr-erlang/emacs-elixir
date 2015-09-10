@@ -668,17 +668,65 @@ defmodule Foo do
 end
 ")
 
-(elixir-def-indentation-test indent-pipes
+;; https://github.com/elixir-lang/emacs-elixir/issues/243
+(elixir-def-indentation-test indent-pipes-1
                              (:tags '(indentation))
     "
 def foo(x) do
-  a = x
-       |> Enum.reverse
+x
+|> Enum.reverse
+end"
+    "
+def foo(x) do
+  x
+  |> Enum.reverse
+end")
+
+(elixir-def-indentation-test indent-pipes-2
+                             (:tags '(indentation))
+    "
+def foo(x) do
+a = x
+|> Enum.reverse
 end"
     "
 def foo(x) do
   a = x
-  |> Enum.reverse
+      |> Enum.reverse
+end")
+
+(elixir-def-indentation-test indent-pipes-3
+                             (:tags '(indentation))
+    "
+def foo(x) do
+a =
+x
+|> Enum.reverse
+end"
+    "
+def foo(x) do
+  a =
+    x
+    |> Enum.reverse
+end")
+
+(elixir-def-indentation-test indent-pipes-4
+                             (:tags '(indentation))
+    "
+def foo(x) do
+a =
+x
+|> Enum.reverse
+                   |> Enum.reverse
+|> Enum.reverse
+end"
+    "
+def foo(x) do
+  a =
+    x
+    |> Enum.reverse
+    |> Enum.reverse
+    |> Enum.reverse
 end")
 
 (elixir-def-indentation-test indent-inside-parens
